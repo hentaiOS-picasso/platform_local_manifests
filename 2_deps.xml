@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+
+    <remote name="hentai-picasso"
+            fetch="https://github.com/hentaiOS-picasso"
+            revision="TwistedScarlett" />
+    
+    <remote name="lineage"
+            fetch="https://github.com/LineageOS"
+            revision="lineage-20.0" />
+
+    <remote name="acme"
+            fetch="https://github.com/AcmeUI"
+            revision="taffy" />
+    
+  <project path="build/make" name="platform_build" groups="pdk" remote="hentai-picasso" >
+    <copyfile src="core/root.mk" dest="Makefile" />
+    <linkfile src="CleanSpec.mk" dest="build/CleanSpec.mk" />
+    <linkfile src="buildspec.mk.default" dest="build/buildspec.mk.default" />
+    <linkfile src="core" dest="build/core" />
+    <linkfile src="envsetup.sh" dest="build/envsetup.sh" />
+    <linkfile src="target" dest="build/target" />
+    <linkfile src="tools" dest="build/tools" />
+  </project>
+  <project path="build/soong" name="platform_build_soong" groups="pdk,tradefed" remote="hentai-picasso" >
+    <linkfile src="root.bp" dest="Android.bp" />
+    <linkfile src="bootstrap.bash" dest="bootstrap.bash" />
+  </project>
+
+  <!-- prebuilts -->
+  <project path="prebuilts/tools-acme" name="android_prebuilts_tools-acme" remote="acme" />
+
+  <project path="system/core" name="platform_system_core" groups="pdk" remote="hentai-picasso" />
+  <project path="system/security" name="platform_system_security" groups="pdk" remote="hentai-picasso" />
+  <project path="system/sepolicy" name="platform_system_sepolicy" groups="pdk" remote="hentai-picasso" />
+  <project path="system/vold" name="platform_system_vold" groups="pdk" remote="hentai-picasso" />
+
+  <project path="device/qcom/sepolicy" remote="lineage" name="android_device_qcom_sepolicy" groups="qcom,qssi" />
+  <project path="device/qcom/sepolicy-legacy-um" remote="lineage" name="android_device_qcom_sepolicy" groups="qcom,sdm660" revision="lineage-20.0-legacy-um" />
+  <project path="device/qcom/sepolicy_vndr" remote="lineage" name="android_device_qcom_sepolicy_vndr" groups="qcom,waipio-vendor" />
+  <project path="device/qcom/sepolicy_vndr-legacy-um" remote="lineage" name="android_device_qcom_sepolicy_vndr" groups="qcom,lahaina" revision="lineage-20.0-legacy-um" />
+  <project path="external/ant-wireless/ant_client" remote="lineage" name="android_external_ant-wireless_ant_client" groups="qcom,sdm660" />
+  <project path="external/ant-wireless/ant_native" remote="lineage" name="android_external_ant-wireless_ant_native" groups="qcom,sdm660" />
+  <project path="external/ant-wireless/ant_service" remote="lineage" name="android_external_ant-wireless_ant_service" groups="qcom,sdm660" />
+  <project path="external/ant-wireless/hidl" remote="lineage" name="android_external_ant-wireless_hidl" groups="qcom,qssi" />
+  <project path="external/json-c" remote="lineage" name="android_external_json-c" groups="qcom,qssi" />
+
+  <project path="hardware/interfaces" name="platform_hardware_interfaces" groups="pdk" remote="hentai-picasso" />
+  <project path="hardware/libhardware" name="platform_hardware_libhardware" groups="pdk" remote="hentai-picasso" />
+  <project path="hardware/qcom-caf/common" remote="lineage" name="android_hardware_qcom-caf_common" groups="qcom" >
+    <!-- add guard for AOSP hardware/qcom dir -->
+    <linkfile src="os_pickup_aosp.mk" dest="hardware/qcom/Android.mk" />
+    <!-- add guards for CAF repositories -->
+    <linkfile src="os_pickup_qssi.bp" dest="hardware/qcom-caf/sm8250/Android.bp" />
+    <linkfile src="os_pickup.mk" dest="hardware/qcom-caf/sm8250/Android.mk" />
+    <linkfile src="os_pickup.bp" dest="vendor/nxp/opensource/pn5xx/Android.bp" />
+    <linkfile src="os_pickup.mk" dest="vendor/nxp/opensource/pn5xx/Android.mk" />
+    <linkfile src="os_pickup.bp" dest="vendor/nxp/opensource/sn100x/Android.bp" />
+    <linkfile src="os_pickup.mk" dest="vendor/nxp/opensource/sn100x/Android.mk" />
+    <!-- add guards for Pixel kernel modules -->
+    <linkfile src="os_pickup.bp" dest="kernel/google/gs101/private/google-modules/Android.bp" />
+    <linkfile src="os_pickup.bp" dest="kernel/google/gs201/private/google-modules/Android.bp" />
+  </project>
+
+  <project path="hardware/qcom-caf/bt" remote="lineage" name="android_hardware_qcom_bt" groups="qcom,legacy-qcom" revision="lineage-20.0-caf" />
+  <project path="hardware/qcom-caf/sm8250/audio" remote="lineage" name="android_hardware_qcom_audio" groups="qcom,kona" revision="lineage-20.0-caf-sm8250" />
+  <project path="hardware/qcom-caf/sm8250/display" remote="lineage" name="android_hardware_qcom_display" groups="qcom" revision="lineage-20.0-caf-sm8250" />
+  <project path="hardware/qcom-caf/sm8250/media" remote="lineage" name="android_hardware_qcom_media" groups="qcom,kona" revision="lineage-20.0-caf-sm8250" />
+  <project path="hardware/qcom-caf/thermal" remote="lineage" name="android_hardware_qcom_thermal" groups="qcom,waipio-vendor" />
+  <project path="hardware/qcom-caf/vr" remote="lineage" name="android_hardware_qcom_vr" groups="qcom,sdm660" />
+  <project path="hardware/qcom-caf/wlan" remote="lineage" name="android_hardware_qcom_wlan" groups="qcom,waipio-vendor" revision="lineage-20.0-caf" />
+  <project path="vendor/codeaurora/telephony" remote="lineage" name="android_vendor_codeaurora_telephony" groups="qcom,qssi" />
+  <project path="vendor/qcom/opensource/audio" remote="lineage" name="android_vendor_qcom_opensource_audio" groups="qcom,qssi" />
+  <project path="vendor/qcom/opensource/audio-hal/st-hal" remote="lineage" name="android_vendor_qcom_opensource_audio-hal_st-hal" groups="qcom,lahaina" />
+  <project path="vendor/qcom/opensource/commonsys-intf/display" remote="lineage" name="android_vendor_qcom_opensource_display-commonsys-intf" groups="qcom,qssi" />
+  <project path="vendor/qcom/opensource/commonsys/display" remote="lineage" name="android_vendor_qcom_opensource_display-commonsys" groups="qcom,qssi" />
+  <project path="vendor/qcom/opensource/display" remote="lineage" name="android_vendor_qcom_opensource_display" groups="qcom" />
+  <project path="vendor/qcom/opensource/fm-commonsys" remote="lineage" name="android_vendor_qcom_opensource_fm-commonsys" groups="qcom,qssi" />
+  <project path="vendor/qcom/opensource/data-ipa-cfg-mgr" remote="lineage" name="android_vendor_qcom_opensource_data-ipa-cfg-mgr" groups="qcom,waipio-vendor" />
+  <project path="vendor/qcom/opensource/data-ipa-cfg-mgr-legacy-um" remote="lineage" name="android_vendor_qcom_opensource_data-ipa-cfg-mgr" groups="qcom,lahaina" revision="lineage-20.0-legacy-um" />
+  <project path="vendor/qcom/opensource/dataservices" remote="lineage" name="android_vendor_qcom_opensource_dataservices" groups="qcom,waipio-vendor" />
+  <project path="vendor/qcom/opensource/interfaces" remote="lineage" name="android_vendor_qcom_opensource_interfaces" groups="qcom,qssi" />
+  <project path="vendor/qcom/opensource/power" remote="lineage" name="android_vendor_qcom_opensource_power" groups="qcom,waipio-vendor" />
+  <project path="vendor/qcom/opensource/thermal-engine" remote="lineage" name="android_vendor_qcom_opensource_thermal-engine" groups="qcom,waipio-vendor" />
+  <project path="vendor/qcom/opensource/usb" remote="lineage" name="android_vendor_qcom_opensource_usb" groups="qcom,waipio-vendor" />
+  <project path="vendor/qcom/opensource/vibrator" remote="lineage" name="android_vendor_qcom_opensource_vibrator" groups="qcom,waipio-vendor" />
+  <project path="vendor/qcom/opensource/wfd-commonsys" remote="lineage" name="android_vendor_qcom_opensource_wfd-commonsys" groups="qcom,waipio-video" />
+
+  <project path="vendor/hentai" name="platform_vendor_hentai" remote="hentai-picasso" />
+</manifest>
